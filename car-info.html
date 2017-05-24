@@ -12,6 +12,8 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/rem.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=55df9c3ffc22f19d7fc66edc5b8049e4"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -68,7 +70,7 @@
             </li>
             <li>
                <span class="header-text">租赁状态</span>
-               <span id="car_status">未知</span>
+               <span id="car_status" class="yellow">未知</span>
             </li>
             <li>
                <span class="header-text">设备</span>
@@ -106,7 +108,7 @@
 
         <div id="myTabContent" class="tab-content">
 
-            <div class="tab-pane fade in active" id="car-control">
+            <div class="tab-pane fade" id="car-control">
                 <table class="table table-condensed">
                         <thead>
                         <tr class="header-text">
@@ -196,43 +198,53 @@
                     <tr>
                         <td>经纬度</td>
                         <td >
-                            <span id='location'>--</span>
-                            <a id='map'></a>
+                            <span id='location'>113.371,23.05</span>
+                            <a id='map' data-toggle="modal" data-target="#myModal"></a>
                         </td>
                         <td>总里程</td>
-                        <td id='distance'>--</td>
+                        <td id='distance'>86126497km</td>
                         <td>ACC点火器状态</td>
-                        <td id='acc'>--</td>
+                        <td id='acc'>开启</td>
                     </tr>
                     <tr>
                         <td>海拔</td>
-                        <td id='elevation'>--</td>
+                        <td id='elevation'>10000m</td>
                         <td>剩余续航</td>
-                        <td  id='surplusDistance'>--</td>
+                        <td  id='surplusDistance'>242km</td>
                         <td>设备信号强度</td>
-                        <td id='signal'>--</td>
+                        <td id='signal' class="yellow">未知</td>
                     </tr>
                     <tr>
                         <td>车速</td>
-                        <td id='speed'>--</td>
+                        <td id='speed'>10km/h</td>
                         <td>剩余电量</td>
-                        <td id='surplusPercent'>--</td>
+                        <td id='surplusPercent'>89%</td>
                         <td>设备通断电状态</td>
-                        <td id='status'>--</td>
+                        <td id='status' class="yellow">未知</td>
                     </tr>
                     <tr>
                         <td>方向</td>
-                        <td id='direction'>--</td>
+                        <td id='direction'>598°</td>
                         <td>车灯状态</td>
-                        <td id='light'>--</td>
+                        <td id='light'>开启</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
                         <td>车门状态</td>
-                        <td id='door'>--</td>
+                        <td id='door'>开启</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
                         <td>小电瓶电压</td>
-                        <td id='voltage'>--</td>
+                        <td id='voltage'>11.9v</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>
@@ -240,8 +252,41 @@
         </div>
 
     </div>
-</div>
 
-<script src="js/car-info.js"></script>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <!--<div class="modal-content">-->
+            <div id="mapContainer"></div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<!--<script src="js/car-info.js"></script>-->
+<script type="application/javascript">
+    //console.log("地图页面开始加载latitude={{latitude }},longitude={{ longitude }}");
+    var map = new AMap.Map('mapContainer', {
+        // 设置中心点
+        center:[113.371,23.05],
+        // 设置缩放级别
+        zoom: 16
+    });
+
+    //地图中添加地图操作ToolBar插件
+    map.plugin(["AMap.ToolBar"],function() {
+        var toolBar = new AMap.ToolBar();
+        map.addControl(toolBar);
+    });
+    var markers = [];
+    addMarker(113.371,23.05);
+
+    function addMarker(lng,lat){
+        marker = new AMap.Marker({
+            icon:"images/map-icon.png",
+            position:new AMap.LngLat(lng,lat)
+        });
+        marker.setMap(map);  //在地图上添加点
+        markers.push(marker);
+    }
+</script>
 </body>
 </html>
