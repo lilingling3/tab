@@ -5,16 +5,243 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>驾呗</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/car-info.css">
     <script src="js/jquery.min.js"></script>
+    <script src="js/rem.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
+    <div class="content top">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <select  name="plate_id" id="plate_id">
+                    <option value="0">选择地域</option>
+                    <option value="600">京</option>
+                    <option value="601">粤</option>
+                    <option value="601">琼</option>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <input type="text" placeholder="请输入车牌号" name="plate_number" id='plate_number'>
+            </div>
+
+            <div class="form-group">
+                <select name="company_id" id="company_id">
+                    <option value="0">选择设备公司</option>
+                    <option value="600">微租车</option>
+                    <option value="601">宝驾</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="device_number" id='device_number' placeholder="输入设备ID">
+            </div>
+
+            <div class="form-group">
+                <button id='singleBtn'  class="btn btn-success" type="button"  onclick="singleBtn()">单次获取</button>
+            </div>
+            <div class="form-group">
+                <button id='repeatBtn'  class="btn btn-info" type="button"  onclick="repeatBtn()">连续获取</button>
+            </div>
+            <!--<button id='repeatBtn2' class="btn btn-danger col-md-2" type="button"  onclick="repeatBtn()">暂停获取</button>-->
+        </form>
+    </div>
+
+    <div class="content car-info">
+        <span class="car-img">
+            <img src="images/car.png" alt="">
+        </span>
+
+        <ul class="car-text">
+            <li>
+               <span class="header-text">车牌</span>
+               <span id="car_brand">京QR79J7</span>
+            </li>
+            <li>
+               <span class="header-text">车型</span>
+               <span id="car_model">EU260</span>
+            </li>
+            <li>
+               <span class="header-text">租赁状态</span>
+               <span id="car_status">未知</span>
+            </li>
+            <li>
+               <span class="header-text">设备</span>
+               <span id="car_device">微租车</span>
+            </li>
+            <li>
+               <span class="header-text">设备ID</span>
+               <span id="car_deviceID">116502100004551</span>
+            </li>
+            <li>
+               <span class="header-text">获取方式</span>
+               <span id="car_type">连续获取</span>
+            </li>
+            <!--<li>-->
+               <!--<span class="text">获取时间</span>-->
+               <!--<span id="car_time"></span>-->
+            <!--</li>-->
+        </ul>
+        <input type="hidden" name="car-id" id="car_id">
+        <input type="hidden" name="cache_id" id="cache_id">
+    </div>
+
+    <div class="content car-data">
+
+        <ul id="myTab" class="nav nav-tabs">
+
+            <li >
+                <a href="#car-control" data-toggle="tab">车辆控制</a>
+            </li>
+
+            <li class="active">
+                <a href="#data-reading" data-toggle="tab">数据读取</a>
+            </li>
+        </ul>
+
+        <div id="myTabContent" class="tab-content">
+
+            <div class="tab-pane fade in active" id="car-control">
+                <table class="table table-condensed">
+                        <thead>
+                        <tr class="header-text">
+                            <th>控制信息</th>
+                            <th>操作时间</th>
+                            <th>返回时长</th>
+                            <th>结果</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td>车门解锁</td>
+                              <td id="car_control_open_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_open_back" >小于1秒</td>
+                              <td id="car_control_open_result">成功</td>
+                              <td>
+                                <button class="btn btn-info" type="button">解锁</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>车门上锁</td>
+                              <td id="car_control_close_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_close_back" >-</td>
+                              <td id="car_control_close_result">-</td>
+                              <td>
+                                <button class="btn btn-info" type="button">上锁</button>
+                              </td>
+                            </tr>
+                            <tr>
+                                <td>动力电接通</td>
+                              <td id="car_control_on_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_on_back" >大于10秒</td>
+                              <td id="car_control_on_result">未知</td>
+                              <td>
+                                <button class="btn btn-info" type="button">通电</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>动力电断开</td>
+                              <td id="car_control_off_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_off_back" >5秒</td>
+                              <td id="car_control_off_result">失败</td>
+                              <td>
+                                <button class="btn btn-info" type="button">断电</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>闪灯鸣笛</td>
+                              <td id="car_control_find_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_find_back" >小于1秒</td>
+                              <td id="car_control_find_result">成功</td>
+                              <td>
+                                <button class="btn btn-info" type="button">寻车</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>初始化</td>
+                              <td id="car_control_reset_time">2017/12/31 13:39:38</td>
+                              <td id="car_control_reset_back" >小于1秒</td>
+                              <td id="car_control_reset_result">成功</td>
+                              <td>
+                                <button class="btn btn-default" type="button" id="reset-btn">未提供</button>
+                              </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+
+            <div class="tab-pane fade in active" id="data-reading">
+
+                <div id="history">
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                    <span>23:39:38</span>
+                </div>
+
+                <table class="table table-condensed">
+                    <tbody id="runningField">
+                    <tr>
+                        <td>经纬度</td>
+                        <td >
+                            <span id='location'>--</span>
+                            <a id='map'></a>
+                        </td>
+                        <td>总里程</td>
+                        <td id='distance'>--</td>
+                        <td>ACC点火器状态</td>
+                        <td id='acc'>--</td>
+                    </tr>
+                    <tr>
+                        <td>海拔</td>
+                        <td id='elevation'>--</td>
+                        <td>剩余续航</td>
+                        <td  id='surplusDistance'>--</td>
+                        <td>设备信号强度</td>
+                        <td id='signal'>--</td>
+                    </tr>
+                    <tr>
+                        <td>车速</td>
+                        <td id='speed'>--</td>
+                        <td>剩余电量</td>
+                        <td id='surplusPercent'>--</td>
+                        <td>设备通断电状态</td>
+                        <td id='status'>--</td>
+                    </tr>
+                    <tr>
+                        <td>方向</td>
+                        <td id='direction'>--</td>
+                        <td>车灯状态</td>
+                        <td id='light'>--</td>
+                    </tr>
+                    <tr>
+                        <td>车门状态</td>
+                        <td id='door'>--</td>
+                    </tr>
+                    <tr>
+                        <td>小电瓶电压</td>
+                        <td id='voltage'>--</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
+
 <script src="js/car-info.js"></script>
 </body>
 </html>

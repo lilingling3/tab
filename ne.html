@@ -1,0 +1,222 @@
+
+{% extends "AutoAdminBundle::baseAdmin.html.twig" %}
+{% set page_id  = ['rentalcar', 'carinfo'] %}
+
+{% block stylesheets %}
+<script type="text/javascript" src="{{ asset('/bundles/autoadmin/js/carInfo.js') }}"></script>
+{{ parent() }}
+<style>
+    body{
+        font-size: 13px;
+    }
+    .ui.grid>.column:not(.row) {
+        padding-top: 0rem;
+    }
+    .ui.grid>[class*="fourteen wide"].column{
+        width: 100%!important;
+    }
+    #spanMargin span{
+        margin: 0 10px;
+        font-size: 16px;
+        line-height: 1.2;
+    }
+    #admin .main-right{
+        background: #fff;
+    }
+    #admin .main-left{
+        display: none !important;
+    }
+    .ui.segment{
+        padding: 0;
+    }
+    .time_input{
+        width: 9rem;
+    }
+    #admin .main-top {
+        margin-top: 30px;
+    }
+    .link-disabled{
+        pointer-events:none
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'AutoAdminBundle::baseNav.html.twig' with {'nav':'列表','prenav':'车辆信息查询'} %}
+
+<div class="ui main-content">
+    <div class="ui bottom attached segment  no_border row">
+        <form  name="carInfoForm"   method="post" >
+
+            <select  class=" time_input" name="plate_id" id="plate_id" class="ui dropdown">
+                <option value="0">选择地域</option>
+                {% for license_place in license_places %}
+                <option value="{{ license_place.id }}">{{ license_place.name }}</option>
+                {% endfor %}
+            </select>
+
+            <input class=" time_input" type="text" name="plate_number" id='plate_number'  placeholder="输入车牌号查询" >
+
+            <select  class=" time_input"  name="company_id" id="company_id" class="ui dropdown">
+                <option value="0">选择设备公司</option>
+                {% for  company in companys %}
+                <option value="{{company.id}}">{{ company.name }}</option>
+                {% endfor %}
+            </select>
+
+
+            <input class=" time_input" type="text" name="device_number" id='device_number' placeholder="输入设备ID" >
+
+            <button id='CarInfo' class="ui teal button " type="button" onclick="singleBtn()" >单次获取</button>
+            <button id='CarInfo2' class="ui teal button " type="button"  onclick="repeatBtn()" >连续获取</button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<div class="ui main-content grid" style="position: relative">
+    <p  id="spanMargin">
+        <span id="carBrand">车牌：</span>|
+        <span id="carModel">车型</span>|
+        <span id="carStatus">租赁状态</span>|
+        <span id="carDevice">设备：</span>|
+        <span id="carDeviceID">设备ID：</span>|
+        <span id="getType">获取方式：</span>|
+        <span id="getTime">获取时间：</span>|
+        <input type="hidden" name="car_id" id="car_id">
+    </p>
+</div>
+
+
+
+<div class="ui main-content grid" style="position: relative">
+    <div id="repeateSpan" style="display: none;width: 90%">
+        <div>历史：</div>
+        <div id="repeateHistory" style="font-size: 14px;background: #fff;word-wrap: break-word;"></div>
+    </div>
+    <div class="fifteen wide column">
+
+        <table class="ui very  table" >
+            <thead>
+            <tr>
+                <th>状态信息</th>
+                <th style="border-right: 1px solid rgba(34,36,38,.15)">结果</th>
+                <th>状态信息</th>
+                <th style="border-right: 1px solid rgba(34,36,38,.15)">结果</th>
+                <th>状态信息</th>
+                <th>结果</th>
+            </tr>
+            </thead>
+            <tbody id="runningField">
+            <tr>
+                <td>经度/纬度</td>
+                <td >
+                    <span id='location'>--</span>
+                    <a id='map' >[地图]</a>
+                </td>
+                <td>剩余续航里程</td>
+                <td  id='surplusDistance'>--</td>
+                <td>ACC点火器状态</td>
+                <td id='acc'>--</td>
+            </tr>
+            <tr>
+                <td>海拔</td>
+                <td id='elevation'>--</td>
+                <td>剩余电量百分比</td>
+                <td id='surplusPercent'>--</td>
+                <td>设备信号强度</td>
+                <td id='signal'>--</td>
+            </tr>
+            <tr>
+                <td>车速</td>
+                <td id='speed'>--</td>
+                <td>方向</td>
+                <td id='direction'>--</td>
+                <td>设备通断电状态</td>
+                <td id='status'>--</td>
+            </tr>
+            <tr>
+                <td>车灯状态</td>
+                <td id='light'>--</td>
+                <td>车门状态</td>
+                <td id='door'>--</td>
+                <td>总里程</td>
+                <td id='distance'>--</td>
+            </tr>
+            <tr>
+                <td>小电瓶电压</td>
+                <td id='voltage'>--</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+        <table class="ui very  table">
+            <caption style="margin: 0 0 20px 0">车辆控制调试</caption>
+            <thead>
+            <tr>
+                <th>控制信息</th>
+                <th>时间</th>
+                <th>结果</th>
+                <th style="border-right: 1px solid rgba(34,36,38,.15)">操作</th>
+                <th>控制信息</th>
+                <th>时间</th>
+                <th>结果</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>车辆解锁</td>
+                <td id="car_control_open_time" class="controlTime">-</td>
+                <td id="car_control_open_result" class="controlTxt">-</td>
+                <td style="border-right: 1px solid rgba(34,36,38,.15)">
+                    <a href="javascript:void(0);" id="car_control_open" data-value="解锁" onclick="getCarControl('open')">--</a>
+                </td>
+                <td>车辆上锁</td>
+                <td id="car_control_close_time" class="controlTime">-</td>
+                <td id="car_control_close_result" class="controlTxt">-</td>
+                <td>
+                    <a  href="javascript:void(0);" id="car_control_close" data-value="上锁"  onclick="getCarControl('close')">--</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>动力电接通</td>
+                <td id="car_control_on_time" class="controlTime">- </td>
+                <td id="car_control_on_result" class="controlTxt">-</td>
+                <td style="border-right: 1px solid rgba(34,36,38,.15)">
+                    <a href="javascript:void(0);" id="car_control_on"  onclick="getCarControl('on')" data-value="供电">--</a>
+                </td>
+                <td>动力电切断</td>
+                <td id="car_control_off_time" class="controlTime">- </td>
+                <td id="car_control_off_result" class="controlTxt">-</td>
+                <td>
+                    <a href="javascript:void(0);" id="car_control_off" onclick="getCarControl('off')" data-value="断电" >--</a>
+                </td>
+            </tr>
+            <tr>
+                <td>闪灯鸣笛</td>
+                <td id="car_control_find_time" class="controlTime">- </td>
+                <td id="car_control_find_result" class="controlTxt">-</td>
+                <td style="border-right: 1px solid rgba(34,36,38,.15)">
+                    <a href="javascript:void(0);" id="car_control_find" onclick="getCarControl('find')"  data-value="寻车">--</a>
+                </td>
+                <td>初始化</td>
+                <td id="car_control_reset_time">- </td>
+                <td id="car_control_reset_result">-</td>
+                <td>
+                    <a href="javascript:void(0);" id="car_control_reset" onclick="getCarControl('reset')" data-value="初始化">--</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
