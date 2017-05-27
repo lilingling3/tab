@@ -9,7 +9,7 @@ ul,li{list-style-type:none;}
 .wrap{
     width: 100%;
     padding: 16px;
-    max-width: 768px;
+    min-width: 768px;
     background-color: #2e3138;
     margin: 0 auto;
     font-size: 12px;
