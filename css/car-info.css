@@ -5,18 +5,26 @@ body{margin:0 auto; font:14px "Microsoft YaHei"; color:#000; font-family:"Micros
 input { font:14px "Microsoft YaHei"; text-indent:4px;*text-indent:0px; font-family:"Microsoft YaHei"; color:#999;outline: none;}
 textarea,input{word-wrap:break-word; word-break:break-all; padding:0px;}
 ul,li{list-style-type:none;}
+input,button,select,textarea{outline:none;}
 
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none;
+}
 .wrap{
     width: 100%;
-    height: 100%;
-    min-width: 768px;
+    padding: 16px;
+    max-width: 768px;
     background-color: #2e3138;
-    padding: 0.5rem;
     margin: 0 auto;
     font-size: 12px;
     color: #d8d9da;
-    padding-bottom: 4rem;
 }
+
 .yellow{
     color: #ffd800;
 }
@@ -24,24 +32,38 @@ ul,li{list-style-type:none;}
     background-color: #444953;
 }
 .form-group{
-    margin-left: 0.2rem;
-}
-.top input, select{
-    height: 30px;
-    outline: none;
+    margin-left: 0.1rem;
+    margin-bottom: 0.5rem;
 }
 .top{
-    padding: 0.4rem 0 0.4rem 0.1rem;
+    padding: 0.5rem;
+}
+.top select,input{
+    height: 30px;
+    background-color: #2e3138;
+    color: #7b7e84;
+    border: none;
+    font-size: 14px;
+}
+.top select{
+    /*padding: 5px 15px;*/
+}
+.top input{
+    padding: 0 0 0 4px;
+}
+.top .form-group:nth-child(2)>input{
+    width: 3rem;
 }
 
 .car-info{
-    margin-top: 1.5rem;
+    margin-top: 65px;
     position: relative;
 }
+
 .car-info .car-img{
     position: absolute;
-    top: -1rem;
-    left: 0.3rem;
+    top: -40px;
+    left: 15px;
 }
 .car-info img{
     width: 40%;
@@ -49,7 +71,7 @@ ul,li{list-style-type:none;}
 
 .car-info .car-text li{
     float: left;
-    padding: 0.3rem 0.38rem;
+    padding:20px 16px;
 }
 .car-info .car-text:after{
     content: '';
@@ -60,10 +82,10 @@ ul,li{list-style-type:none;}
     margin-left: 25%
 }
 .car-info .car-text span{
-   display:block;
+    display:block;
 }
 .car-data{
-    margin-top: 0.6rem;
+    margin-top: 35px;
 }
 .car-data .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     color: #fff;
@@ -85,8 +107,8 @@ ul,li{list-style-type:none;}
 #myTabContent table{
     width: 98%;
     max-width: 100%;
-    margin-bottom: 20px;
     margin-left: 9px;
+    margin-bottom: 0;
 }
 #myTabContent table>tr{
     padding-left:20px;
@@ -94,8 +116,8 @@ ul,li{list-style-type:none;}
 #myTabContent .table > thead > tr > th,
 .table > tbody > tr > td{
     border-bottom: 1px solid #60646c;
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
 }
 #myTabContent .table > tbody > tr:last-child>td{
     border-bottom: none;
@@ -106,7 +128,7 @@ ul,li{list-style-type:none;}
 #car-control .table > thead > tr > th:last-child{
     text-align: center;
 }
-#reset-btn{
+.reset-btn{
     color: #686b71;
     background: #23252b;
     border: none;
@@ -118,18 +140,18 @@ ul,li{list-style-type:none;}
     color: #686b71;
 }
 #history{
-    margin-top: 10px;
+    margin-top: 13px;
     word-wrap: break-word;
 }
 #history span{
     display: inline-block;
-    width: 60px;
+    width: 62px;
     height: 25px;
-    background: url("../images/btn.png") no-repeat;
+    background: url(../images/btn.png) no-repeat;
     background-size: cover;
     text-align: center;
-    line-height: 20px;
-    margin-left: 6px;
+    line-height: 25px;
+    margin-left: 8px;
 }
 #history span:first-child{
     background: url("../images/but-first.png") no-repeat;
@@ -140,10 +162,9 @@ ul,li{list-style-type:none;}
 }
 #runningField tr>td{
     text-align: left;
-    /*border: 1px solid red;*/
 }
 #data-reading .table{
-    margin-top: 0.1rem;
+    margin-top: 13px;
 }
 
 #data-reading .table tr>td:nth-child(odd){
@@ -152,33 +173,41 @@ ul,li{list-style-type:none;}
     padding-left: 0.2rem;
 }
 #data-reading .table tr>td:nth-child(even){
-    /*border: 1px solid red;*/
 }
 #data-reading .table tr>td:nth-child(5){
     width: 15%;
-    /*border: 1px solid yellow;*/
+}
+#map-td{
+    position: relative;
 }
 #map{
-    background: transparent;
-    width: 0.3rem;
-    height: 0.3rem;
+    position: absolute;
+    border: none;
+    width: 15px;
+    height: 18px;
+    background-color: transparent;
 }
-#map{
+#map-div{
+    position: relative;
+    vertical-align: text-bottom;
     display: inline-block;
-    width: 0.35rem;
-    height: 0.4rem;
-    background: url("../images/map-icon.png");
+    width: 15px;
+    height: 18px;
+    background: url(../images/map-icon.png) no-repeat;
     background-size: cover;
-    margin: -0.1rem 0;
+    overflow: hidden;
 }
-
+#myModal{
+    position: absolute;
+}
 #myModal .modal-dialog{
-    height: 100%;
+    margin-top: 135px;
+    height: 380px;
 }
 
 #mapContainer{
     margin-top: 2rem;
-    height: 60%;
+    height: 100%;
     width: 100%;
     overflow: hidden;
     position: relative;
