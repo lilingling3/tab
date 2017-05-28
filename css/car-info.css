@@ -32,11 +32,10 @@ input,button,select,textarea{outline:none;}
     background-color: #444953;
 }
 .form-group{
-    margin-left: 0.1rem;
-    margin-bottom: 0.5rem;
+    margin-left: 5px;
 }
 .top{
-    padding: 0.5rem;
+    padding: 15px;
 }
 .top select,input{
     height: 30px;
@@ -45,14 +44,19 @@ input,button,select,textarea{outline:none;}
     border: none;
     font-size: 14px;
 }
+
 .top select{
-    /*padding: 5px 15px;*/
+    padding: 5px 15px;
+    outline: none;
+    border: none;
+    border: 0px!important;
+    overflow: hidden;
 }
 .top input{
     padding: 0 0 0 4px;
 }
 .top .form-group:nth-child(2)>input{
-    width: 3rem;
+    width: 100px;
 }
 
 .car-info{
@@ -199,6 +203,16 @@ input,button,select,textarea{outline:none;}
 }
 #myModal{
     position: absolute;
+    left: 49%;
+    top: 60%;
+    transform: translateY(-55%);
+    display: inline-block;
+    width: 16px;
+    height: 19px;
+    background: url(../images/map-icon.png);
+    background-size: cover;
+    margin-left: -5px;
+    margin-top: -5px;
 }
 #myModal .modal-dialog{
     margin-top: 135px;

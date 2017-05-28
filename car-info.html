@@ -10,36 +10,52 @@
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/car-info.css">
     <script src="js/jquery.min.js"></script>
-    <script src="js/rem.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="http://webapi.amap.com/maps?v=1.3&key=55df9c3ffc22f19d7fc66edc5b8049e4"></script>
     <!--<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>-->
 </head>
+<script type="text/javascript">
+//    var start_time = (new Date()).getTime();
+//    console.log('start_time' + start_time);
+</script>
 <body>
 <div class="wrap">
+<<<<<<< HEAD
     <div class="content top ">
         <form class="form-inline with-wrap" role="form">
             <div class="form-group width">
+=======
+    <div class="content top">
+        <form class="form-inline" role="form">
+
+            <div class="form-group">
+>>>>>>> 7039f1c268ef3f2b5caf4f29844596f83d326b63
                 <select  name="plate_id" id="plate_id">
-                    <option value="0">选择地域</option>
+                    <option value="0">地区</option>
                     <option value="600">京</option>
                     <option value="601">粤</option>
                     <option value="601">琼</option>
                 </select>
             </div>
 
+<<<<<<< HEAD
             <div class="form-group width">
                 <input type="text" placeholder="车牌号" name="plate_number" id='plate_number'>
+=======
+            <div class="form-group">
+                <input type="text" value="车牌号" name="plate_number" id='plate_number'>
+>>>>>>> 7039f1c268ef3f2b5caf4f29844596f83d326b63
             </div>
 
             <div class="form-group width">
                 <select name="company_id" id="company_id">
-                    <option value="0">选择设备公司</option>
+                    <option value="0">供应商</option>
                     <option value="600">微租车</option>
                     <option value="601">宝驾</option>
                 </select>
             </div>
 
+<<<<<<< HEAD
             <div class="form-group width">
                 <input type="text" name="device_number" id='device_number' placeholder="设备ID">
             </div>
@@ -49,6 +65,18 @@
             </div>
             <div class="form-group width">
                 <button id='repeatBtn'  class="btn btn-info" type="button"  onclick="repeatBtn()">连续获取</button>
+=======
+            <div class="form-group">
+                <input type="text" name="device_number" id='device_number' value="设备ID">
+            </div>
+            <input type="hidden" name="cache_id" id="cache_id">
+            <div class="form-group">
+                <button id='singleBtn'  class="btn btn-success" type="button">单次获取</button>
+            </div>
+
+            <div class="form-group">
+                <button id='repeatBtn'  class="btn btn-info" type="button">连续获取</button>
+>>>>>>> 7039f1c268ef3f2b5caf4f29844596f83d326b63
             </div>
             <!--<button id='repeatBtn2' class="btn btn-danger col-md-2" type="button"  onclick="repeatBtn()">暂停获取</button>-->
         </form>
@@ -56,7 +84,7 @@
 
     <div class="content car-info">
         <span class="car-img">
-            <img src="images/car.png" alt="">
+            <img src="images/car-defaut.png" alt="">
         </span>
 
         <ul class="car-text">
@@ -84,13 +112,8 @@
                <span class="header-text">获取方式</span>
                <span id="car_type">连续获取</span>
             </li>
-            <!--<li>-->
-               <!--<span class="text">获取时间</span>-->
-               <!--<span id="car_time"></span>-->
-            <!--</li>-->
         </ul>
         <input type="hidden" name="car-id" id="car_id">
-        <input type="hidden" name="cache_id" id="cache_id">
     </div>
 
     <div class="content car-data">
@@ -257,14 +280,24 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
        <div id="mapContainer"></div>
-    </div>
+=======
+    
 </div>
-<!--<script src="js/car-info.js"></script>-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+             <div id="mapContainer"></div>
+        </div>
+>>>>>>> 7039f1c268ef3f2b5caf4f29844596f83d326b63
+    </div>
 <script type="application/javascript">
-    //console.log("地图页面开始加载latitude={{latitude }},longitude={{ longitude }}");
+    var end_time = (new Date()).getTime();
+    console.log('end_time' + end_time);
+    $('#cache_id').val(end_time);
+
     var map = new AMap.Map('mapContainer', {
         // 设置中心点
         center:[113.371,23.05],
@@ -288,7 +321,9 @@
         marker.setMap(map);  //在地图上添加点
         markers.push(marker);
     }
+
 </script>
+<<<<<<< HEAD
 
 
 
@@ -301,5 +336,9 @@
             })
         })
     </script>
+=======
+<script src="js/car-info.js"></script>
+<!-- <span data-time="time" data-id="carID"></span> -->
+>>>>>>> 7039f1c268ef3f2b5caf4f29844596f83d326b63
 </body>
 </html>
